@@ -1,1 +1,1 @@
-const yes = "yes";
+const vau = "vau";
