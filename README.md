@@ -73,7 +73,7 @@ Biztonság és jogosultságkezelés:
 - admin jogosultság a játékok hozzáadásához
 
 Skálázhatóság és teljesítmény:
-- cache réteh a gyakran keresett játékokhoz
+- cache réteg a gyakran keresett játékokhoz
 - képek kiszolgálása CDN-ről
 - Oldalak paginációval
 
