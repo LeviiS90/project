@@ -91,17 +91,6 @@ Rendszer bővíthetősége:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 5. Funkcionális tervek / use-case specifikáció
 Fő aktorok:
     - Guest
@@ -145,22 +134,29 @@ Főoldal:
 
 Játékok oldal:
     - bal oldali szűrők (genre, platform)
-    - jobbra kártyák (kép, cím, "Tovább" gomb)
+    - jobbra kártyák (kép, cím,rövid leírás pl ki fejlesztette stb..., "kedvencekhez adás" gomb)
+    - 
+   
 
 Az év játéka:
     - timeline, cards 10 évre
-    - minden év külön díszes kártyával 
+    - minden év külön díszes kártyával és nagyon fancy effektekkel
+    - kattintható kártyák,a hivatalos játék oldalukra irányít
 
 Üzenőfal:
-    - felül "E heti téma" doboz
+    - felül "Témák" doboz (hetente más témák), ki lehet választani a témát és oda írni
     - alatta üzenetlista
     - új üzenet űrlap
+    - látható mindenkinek az üzenete
+    - admin el tudja távolítani az üzenetet ami nem oda illő
 
 Support/Contact:
-    - egyszerű form, visszaigazoló üzenettel
-
+    - egyszerű form, visszaigazoló üzenettel, pénz küldési lehetőséggel (donate), 
+Weben:
 - sötét háttér
-- neon kék / lila akcentusok
-- bootstrap theme + saját CSS
-- animált hover effekek gombokon, menüpontokon
+- neon kék / lila akcentusok (neonos téma)
+- bootstrap theme + CSS
+- animált hover effekek gombokon, menüpontokon, shadowing, animált effekek, speciális effectek például van a https://en.bandainamcoent.eu/elden-ring/elden-ring weboldal
 - responsive navbar
+- responsive oldal
+  
