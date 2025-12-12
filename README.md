@@ -177,3 +177,20 @@ RESTful API:
     - POST /api/donate - Támogatási lehetőség (Opcionális)
     - POST /api/auth/register - regisztrációs form
     - POST /api/auth/login - bejelentkezési form 
+
+
+8. Tesztterv
+- Tesztelési stratégia, tesztesetek, elfogadási kritériumok.
+- Minőségi követelmények és tesztkörnyezet.
+
+Unit tesztek:
+    - service réteg logikája
+
+Integrációs tesztek:
+    - REST endpointok + DB (pl. POST /api/messages létrehoz-e új rekordot)
+
+E2E tesztek:
+    - Selenium/Cypress: regisztráció, login, játék kresesése, üzenet küldése tesztek
+
+Acceptance tesztek:
+    - végigmennek a funkcionális követelmény listán
