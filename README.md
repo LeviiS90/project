@@ -140,7 +140,7 @@ Játékok oldal:
 
 Az év játéka:
     - timeline, cards 10 évre
-    - minden év külön díszes kártyával és nagyon fancy effektekkel
+    - minden év külön díszes kártyával és nagyon fancy effektekkel, animációkkal,
     - kattintható kártyák,a hivatalos játék oldalukra irányít
 
 Üzenőfal:
@@ -156,6 +156,7 @@ Weben:
 - sötét háttér
 - neon kék / lila akcentusok (neonos téma)
 - bootstrap theme + CSS
+- király animációk az egész oldalon
 - animált hover effekek gombokon, menüpontokon, shadowing, animált effekek, speciális effectek például van a https://en.bandainamcoent.eu/elden-ring/elden-ring weboldal
 - responsive navbar
 - responsive oldal
