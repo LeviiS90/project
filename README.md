@@ -175,4 +175,4 @@ RESTful API:
     - POST /api/support - contact form beküldése
     - POST /api/donate - Támogatási lehetőség (Opcionális)
     - POST /api/auth/register - regisztrációs form
-    - POST /api/auth/login - bejelentkezési form
+    - POST /api/auth/login - bejelentkezési form 
