@@ -160,3 +160,19 @@ Weben:
 - responsive navbar
 - responsive oldal
   
+7. Részletes technikai terv
+- Algoritmusok, modulok belső működése.
+- Osztálydiagramok, folyamatábrák.
+
+RESTful API:
+    - GET /api/games - játéklista 
+    - GET /api/games/:id - részletes adat
+    - GET /api/goty - elmúlt 10 év GOTY adatai
+    - POST /api/goty - admin kezeli ezt, új játékot és új éveket ad hozzá
+    - GET /api/messages - üzenetet lehet létrehozni
+    - GET /api/weekly-topics/current -jelenlegi heti témák
+    - GET /api/news - hírek listázása
+    - POST /api/support - contact form beküldése
+    - POST /api/donate - Támogatási lehetőség (Opcionális)
+    - POST /api/auth/register - regisztrációs form
+    - POST /api/auth/login - bejelentkezési form
