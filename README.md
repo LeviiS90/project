@@ -194,3 +194,25 @@ E2E tesztek:
 
 Acceptance tesztek:
     - végigmennek a funkcionális követelmény listán
+
+
+Tesztesetek:
+- regisztráció üres mezőkkel ---> hibaüzenet
+- üzenet küldése nem bejelentkezett felhasználóként ---> 401 Unauthoirzed
+- GOTY oldal: pontosan 10 év jelenik meg
+
+9. Konfiguráció- és verziókezelési terv
+- Git + GitHub repo
+
+Branching startégia
+- main - stabil, kiadott verziók
+- develop- aktív fejlesztés
+- feature/* - egy-egy funkció
+- release/* - kiadás előtti stabilizáció
+- hotfix/* - gyors hibajavítás éles verzión
+
+Build és release folyamat
+- CI pipeline
+- lint + unit test futtats push-kor
+- siker esetén build
+- main branch-re érkezéskor automata deploy
