@@ -158,8 +158,8 @@ Weben:
 - bootstrap theme + CSS
 - király animációk az egész oldalon
 - animált hover effekek gombokon, menüpontokon, shadowing, animált effekek, speciális effectek például van a https://en.bandainamcoent.eu/elden-ring/elden-ring weboldal
-- responsive navbar
-- responsive oldal
+- reszponzív navbar
+- reszponzív oldal
   
 7. Részletes technikai terv
 - Algoritmusok, modulok belső működése.
