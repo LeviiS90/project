@@ -92,38 +92,42 @@ Rendszer bővíthetősége:
 
 
 5. Funkcionális tervek / use-case specifikáció
-Fő aktorok:
-    - Guest
-    - RegisteredUser
-    - Admin
-    - External API
+Funkcionális:
+    Fő aktorok:
+        - Guest
+        - RegisteredUser
+        - Admin
+        - External API
 
-Regisztráció:
-    - aktor: Guest
-    - megnyitja a regisztráció oldalt
-    - kitölti a felhasználónevet és a jelszót
-    - a rendszer validálja, és elmenti
+    Regisztráció:
+        - aktor: Guest
+        - megnyitja a regisztráció oldalt
+        - kitölti a felhasználónevet és a jelszót
+        - a rendszer validálja, és elmenti
 
-Bejelentkezés:
-    - aktor: RegisteredUser
-    - email és jelsző után token, ami további védett végpontok eléréséhez szükséges
+    Bejelentkezés:
+        - aktor: RegisteredUser
+        - email és jelsző után token, ami további védett végpontok eléréséhez szükséges
 
-Játékok böngészése:
-    - aktor: Guest/RegisteredUser
-    - böngész a játékok között, akár szűrővel, részletesen
+    Játékok böngészése:
+        - aktor: Guest/RegisteredUser
+        - böngész a játékok között, akár szűrővel, részletesen
 
-Üzenet írása az üzenőfalra:
-    - aktor: RegisteredUser
-    - betöltődik a heti topic, üzenetet ír, és rámegy a mentés gombra ami a messages táblába elmenti az üzenetet és meg is jeleníti azt
+    Üzenet írása az üzenőfalra:
+        - aktor: RegisteredUser
+        - betöltődik a heti topic, üzenetet ír, és rámegy a mentés gombra ami a messages táblába elmenti az üzenetet és meg is jeleníti azt
 
-Admin beállítja a jövő heti témát:
-    - aktor: Admin
-    - új "weekly topics" rekordot hoz létra az adatbázisban
+    Admin beállítja a jövő heti témát:
+        - aktor: Admin
+        - új "weekly topics" rekordot hoz létra az adatbázisban
 
-GOTY szerkesztése (Game of the Year)
-    - aktor: Admin
-    - kiválaszt egy évszámot, hozzárendel egy játékot, és elmenti
+    GOTY szerkesztése (Game of the Year)
+        - aktor: Admin
+        - kiválaszt egy évszámot, hozzárendel egy játékot, és elmenti
 
+
+Nem funkcionális:
+    - gyors API válasz
 
 6. UI/UIX tervek
 Főoldal:
