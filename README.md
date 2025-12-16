@@ -85,13 +85,13 @@ Rendszer bővíthetősége:
 
 
 
-4. Adatmodell / Adatbázis terv
+4. Adatmodell / Adatbázis terv:
 
-Felhasználó: user_id, user_name, user_password, user_email, user_registrationDate
-Admin: admin_id, admin_name, admin_password, admin_email
-Játék: game_id, game_title, game_price, game_releaseDate
-Értékelés: preview_id, user_id, game_id, rating, comment
-Hírek: 
+    - Felhasználó: user_id, user_name, user_password, user_email, user_registrationDate
+    - Admin: admin_id, admin_name, admin_password, admin_email
+    - Játék: game_id, game_title, game_price, game_releaseDate
+    - Értékelés: preview_id, user_id, game_id, rating, comment
+    - Hírek: 
 
 
 5. Funkcionális tervek / use-case specifikáció
