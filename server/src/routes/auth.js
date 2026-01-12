@@ -1,3 +1,7 @@
+/**
+ * POST /api/auth/register
+ * POST /api/auth/login
+ */
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

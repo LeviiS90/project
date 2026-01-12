@@ -1,62 +1,30 @@
-import { Router } from "express";
-import bcrypt from "bcryptjs";
+/**
+ * Auth middleware:
+ * - requireAuth: JWT token kell (különben 401)
+ * - requireAdmin: admin role kell (különben 403)
+ */
 import jwt from "jsonwebtoken";
-import { z } from "zod";
 import dotenv from "dotenv";
 dotenv.config();
 
-export function authRoutes(db) {
-  const r = Router();
+export function requireAuth(req, res, next) {
+  const header = req.headers.authorization || "";
+  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
 
-  const registerSchema = z.object({
-    email: z.string().email(),
-    username: z.string().min(3),
-    password: z.string().min(6)
-  });
+  if (!token) return res.status(401).json({ error: "Unauthorized (no token)" });
 
-  r.post("/register", async (req, res) => {
-    const parsed = registerSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ error: "Validation error", details: parsed.error.flatten() });
-    }
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = payload; // { id, email, role, username }
+    next();
+  } catch {
+    return res.status(401).json({ error: "Unauthorized (invalid token)" });
+  }
+}
 
-    const { email, username, password } = parsed.data;
-    const exists = await db.get("SELECT id FROM users WHERE email = ?", email);
-    if (exists) return res.status(409).json({ error: "Email already registered" });
-
-    const hash = await bcrypt.hash(password, 10);
-    await db.run(
-      "INSERT INTO users (email, username, password_hash, role) VALUES (?, ?, ?, 'user')",
-      [email, username, hash]
-    );
-
-    res.json({ ok: true });
-  });
-
-  const loginSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1)
-  });
-
-  r.post("/login", async (req, res) => {
-    const parsed = loginSchema.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ error: "Validation error" });
-
-    const { email, password } = parsed.data;
-    const user = await db.get("SELECT * FROM users WHERE email = ?", email);
-    if (!user) return res.status(401).json({ error: "Invalid credentials" });
-
-    const ok = await bcrypt.compare(password, user.password_hash);
-    if (!ok) return res.status(401).json({ error: "Invalid credentials" });
-
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: "2h" }
-    );
-
-    res.json({ token, user: { id: user.id, email: user.email, role: user.role, username: user.username } });
-  });
-
-  return r;
+export function requireAdmin(req, res, next) {
+  if (req.user?.role !== "admin") {
+    return res.status(403).json({ error: "Forbidden (admin only)" });
+  }
+  next();
 }

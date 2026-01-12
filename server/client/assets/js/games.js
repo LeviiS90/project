@@ -20,7 +20,7 @@ async function load() {
   if (sortBy) qs.set("sort-by", sortBy);
 
   const list = await api.request(`/api/games?${qs.toString()}`);
-  render(list.slice(0, 24));
+  render(Array.isArray(list) ? list.slice(0, 24) : []);
 }
 
 function render(list) {
@@ -39,13 +39,15 @@ function render(list) {
             <div class="fw-bold">${esc(g.title)}</div>
             <span class="neon-pill">${esc(g.platform)}</span>
           </div>
-          <div class="small-muted mt-2" style="min-height:48px">${esc((g.short_description||"").slice(0, 90))}…</div>
+          <div class="small-muted mt-2" style="min-height:48px">
+            ${esc((g.short_description||"").slice(0, 90))}${(g.short_description||"").length>90?"…":""}
+          </div>
           <div class="d-flex flex-wrap gap-2 mt-3">
             <button class="neon-btn" data-details="${g.id}">
-              <i class="bi bi-info-circle me-2"></i>Részletek
+              <i class="bi bi-info-circle"></i> Részletek
             </button>
             <button class="neon-btn" data-fav="${g.id}">
-              <i class="bi bi-heart me-2"></i>Kedvencekhez
+              <i class="bi bi-heart"></i> Kedvencekhez
             </button>
           </div>
         </div>
@@ -65,6 +67,7 @@ function render(list) {
 
 async function showDetails(id) {
   const g = await api.request(`/api/games/${id}`);
+
   const overlay = document.createElement("div");
   overlay.style.position = "fixed";
   overlay.style.inset = "0";
@@ -73,6 +76,7 @@ async function showDetails(id) {
   overlay.style.zIndex = "9999";
   overlay.style.display = "grid";
   overlay.style.placeItems = "center";
+
   overlay.innerHTML = `
     <div class="cyber-card p-3 p-lg-4" style="max-width:900px;width:92vw">
       <div class="d-flex justify-content-between align-items-start gap-3">
@@ -91,12 +95,13 @@ async function showDetails(id) {
         <div class="col-lg-6">
           <div class="small-muted mb-2">${esc(g.short_description || "")}</div>
           <a class="neon-btn w-100 text-center" href="${esc(g.game_url)}" target="_blank" rel="noreferrer">
-            <i class="bi bi-box-arrow-up-right me-2"></i>Hivatalos oldal
+            <i class="bi bi-box-arrow-up-right"></i> Hivatalos oldal
           </a>
         </div>
       </div>
     </div>
   `;
+
   document.body.appendChild(overlay);
   overlay.querySelector("#closeOverlay").addEventListener("click", () => overlay.remove());
   overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });

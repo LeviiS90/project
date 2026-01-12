@@ -1,3 +1,8 @@
+/**
+ * Express szerver:
+ * - /api/* REST végpontok
+ * - / (client) statikus frontend kiszolgálása a client/ mappából
+ */
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -26,6 +31,7 @@ app.use(morgan("dev"));
 
 const db = await initDb();
 
+// API routes
 app.use("/api/auth", authRoutes(db));
 app.use("/api/games", gamesRoutes());
 app.use("/api/goty", gotyRoutes(db));
@@ -35,11 +41,13 @@ app.use("/api/news", newsRoutes());
 app.use("/api/support", supportRoutes(db));
 app.use("/api/donate", donateRoutes(db));
 
+// Client statikus
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const clientDir = path.join(__dirname, "../../client");
 app.use("/", express.static(clientDir));
 
+// Hibakezelő
 app.use(errorHandler);
 
 const port = process.env.PORT || 3000;

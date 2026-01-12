@@ -1,3 +1,9 @@
+/**
+ * Fetch wrapper:
+ * - JSON request/response
+ * - token automatikus hozzáadása
+ * - 401 dobása, hogy UI ki tudja írni
+ */
 export const api = {
   async request(path, { method = "GET", body } = {}) {
     const token = localStorage.getItem("token");

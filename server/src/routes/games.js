@@ -1,3 +1,8 @@
+/**
+ * FreeToGame proxy:
+ * - GET /api/games
+ * - GET /api/games/:id
+ */
 import { Router } from "express";
 
 const BASE = "https://www.freetogame.com/api";

@@ -1,59 +1,33 @@
 /**
- * home.js — TELJES, működő “Home” logika a backend API-kkal
- *
- * Használt végpontok:
- * - GET  /api/games?platform=pc&sort-by=popularity   -> Top játékok sliderhez
- * - GET  /api/news?provider=rss|newsapi|gnews&limit= -> Friss hírek (egységes JSON)
- *
- * Elvárt HTML elemek az index.html-ben:
- * - #sliderTrack  (div: ide mennek a top játék kártyák)
- * - #slidePrev    (button)
- * - #slideNext    (button)
- * - #newsGrid     (div.row: ide mennek a hírkártyák)
- * - #refreshNews  (a[href]/button)
- * - #pulseChart   (canvas)
- *
- * Opcionális (ha berakod a menübe):
- * - #newsProvider (select: rss/newsapi/gnews)
- * - #newsStatus   (div: státusz sor)
+ * Főoldal:
+ * - Top games slider: GET /api/games?platform=pc&sort-by=popularity
+ * - News: GET /api/news?provider=rss|newsapi|gnews&limit=12
+ * - Chart.js: animált "pulse"
  */
-
 import { api } from "./api.js";
 
 export async function initHome() {
-  // 1) UI drótok (gombok, provider, parancsok)
   wireSliderButtons();
   wireNewsControls();
 
-  // 2) Első betöltés
-  await Promise.allSettled([loadTopGames(), loadNews(), initChart()]);
-
-  // 3) Kis “belépő” anim érzés: első load után
-  revealOnLoad();
+  await Promise.allSettled([loadTopGames(), loadNews(false), initChart()]);
+  document.getElementById("year").textContent = new Date().getFullYear();
 }
 
-/* -------------------------------------------------------------------------- */
-/* TOP GAMES SLIDER                                                           */
-/* -------------------------------------------------------------------------- */
-
 async function loadTopGames() {
-  const track = byId("sliderTrack");
+  const track = document.getElementById("sliderTrack");
   if (!track) return;
 
-  track.innerHTML = skeletonCards(6, { minWidth: 280, height: 270 });
+  track.innerHTML = skeletonCards(6);
 
-  // FreeToGame: top játékok popularity szerint
   const games = await api.request("/api/games?platform=pc&sort-by=popularity");
-
   const top = Array.isArray(games) ? games.slice(0, 10) : [];
-  track.innerHTML = "";
 
+  track.innerHTML = "";
   for (const g of top) {
     const card = document.createElement("div");
-    card.className = "cyber-card hover-pop";
+    card.className = "cyber-card";
     card.style.minWidth = "280px";
-
-    // Kattintás: games.html#id=xxx
     card.innerHTML = `
       <img src="${esc(g.thumbnail)}" class="w-100" style="height:150px;object-fit:cover" alt="">
       <div class="p-3">
@@ -62,73 +36,56 @@ async function loadTopGames() {
           <span class="neon-pill">${esc(g.genre)}</span>
         </div>
         <div class="small-muted mt-2" style="min-height:44px">
-          ${esc((g.short_description || "").slice(0, 90))}${(g.short_description || "").length > 90 ? "…" : ""}
+          ${esc((g.short_description || "").slice(0, 90))}${(g.short_description||"").length>90?"…":""}
         </div>
-
         <div class="d-flex gap-2 mt-3">
-          <a class="neon-btn flex-fill text-center" href="/games.html#id=${encodeURIComponent(g.id)}">
-            <i class="bi bi-search me-2"></i>Részletek
+          <a class="neon-btn flex-fill" href="/games.html#id=${encodeURIComponent(g.id)}">
+            <i class="bi bi-search"></i> Részletek
           </a>
-          <a class="neon-btn flex-fill text-center" href="${esc(g.game_url)}" target="_blank" rel="noreferrer">
-            <i class="bi bi-box-arrow-up-right me-2"></i>Official
+          <a class="neon-btn flex-fill" href="${esc(g.game_url)}" target="_blank" rel="noreferrer">
+            <i class="bi bi-box-arrow-up-right"></i> Official
           </a>
         </div>
       </div>
     `;
-
     track.appendChild(card);
     animateIn(card);
   }
 
-  // Ha kevés kártya van, görgetés helyett “snap” élmény
   track.style.scrollSnapType = "x mandatory";
   [...track.children].forEach((el) => (el.style.scrollSnapAlign = "start"));
 }
 
 function wireSliderButtons() {
-  const track = byId("sliderTrack");
-  const prev = byId("slidePrev");
-  const next = byId("slideNext");
-
+  const track = document.getElementById("sliderTrack");
+  const prev = document.getElementById("slidePrev");
+  const next = document.getElementById("slideNext");
   if (!track) return;
 
-  prev?.addEventListener("click", () => smoothScroll(track, -320));
-  next?.addEventListener("click", () => smoothScroll(track, +320));
+  prev?.addEventListener("click", () => track.scrollBy({ left: -320, behavior: "smooth" }));
+  next?.addEventListener("click", () => track.scrollBy({ left: 320, behavior: "smooth" }));
 
-  // Egérgörgő vízszintessé (jó “menő” élmény)
   track.addEventListener(
     "wheel",
     (e) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
-        smoothScroll(track, e.deltaY > 0 ? +260 : -260);
+        track.scrollBy({ left: e.deltaY > 0 ? 260 : -260, behavior: "smooth" });
       }
     },
     { passive: false }
   );
 }
 
-function smoothScroll(el, delta) {
-  el.scrollBy({ left: delta, behavior: "smooth" });
-}
-
-/* -------------------------------------------------------------------------- */
-/* NEWS                                                                        */
-/* -------------------------------------------------------------------------- */
-
-async function loadNews(force = false) {
-  const grid = byId("newsGrid");
+async function loadNews(force) {
+  const grid = document.getElementById("newsGrid");
   if (!grid) return;
 
-  const provider = getProvider(); // rss/newsapi/gnews
+  const provider = getProvider();
   const limit = 12;
-
-  setNewsStatus(`Hírek betöltése… (${provider.toUpperCase()})`);
 
   grid.innerHTML = skeletonNews(6);
 
-  // Cache breaker (ha a backend cache-el, a "force" igazából UI-s élmény)
-  // A szerver oldalon van cache, de itt is meg tudjuk mozgatni a UI-t.
   const qs = new URLSearchParams();
   qs.set("provider", provider);
   qs.set("limit", String(limit));
@@ -136,14 +93,10 @@ async function loadNews(force = false) {
 
   try {
     const items = await api.request(`/api/news?${qs.toString()}`);
-
     grid.innerHTML = "";
+
     if (!Array.isArray(items) || items.length === 0) {
-      grid.innerHTML = emptyState(
-        "Nincs hír most",
-        "Próbáld újra, vagy válts provider-t (RSS / NewsAPI / GNews)."
-      );
-      setNewsStatus("Nem jött vissza hír (0 db).");
+      grid.innerHTML = emptyState("Nincs hír most", "Próbáld újra, vagy válts provider-t.");
       return;
     }
 
@@ -151,73 +104,53 @@ async function loadNews(force = false) {
       const col = document.createElement("div");
       col.className = "col-md-6 col-lg-4";
 
-      const date = formatDate(n.published);
-      const img = n.image
+      const imgHtml = n.image
         ? `<img src="${esc(n.image)}" class="w-100 mb-2" style="height:160px;object-fit:cover;border-radius:14px" alt="">`
         : "";
 
       col.innerHTML = `
         <div class="cyber-card p-3 h-100">
-          ${img}
+          ${imgHtml}
           <div class="d-flex justify-content-between align-items-center mb-2">
             <span class="neon-pill">${esc(n.source || "News")}</span>
-            <span class="small-muted">${esc(date)}</span>
+            <span class="small-muted">${esc((n.published || "").slice(0, 10))}</span>
           </div>
           <div class="fw-bold mb-2">${esc(n.title || "")}</div>
           <div class="small-muted mb-3">${esc(n.snippet || "")}</div>
-
           <a class="neon-btn w-100 text-center" href="${esc(n.link || "#")}" target="_blank" rel="noreferrer">
-            <i class="bi bi-newspaper me-2"></i>Megnyitás
+            <i class="bi bi-newspaper"></i> Megnyitás
           </a>
         </div>
       `;
-
       grid.appendChild(col);
-      animateIn(col, { delayMs: 30 });
+      animateIn(col, { delayMs: 20 });
     }
-
-    setNewsStatus(`Kész: ${items.length} hír (${provider.toUpperCase()}).`);
   } catch (e) {
     grid.innerHTML = emptyState("Hiba a hírek betöltésekor", String(e.message || e));
-    setNewsStatus(`Hiba: ${String(e.message || e)}`);
   }
 }
 
 function wireNewsControls() {
-  byId("refreshNews")?.addEventListener("click", (e) => {
+  document.getElementById("refreshNews")?.addEventListener("click", (e) => {
     e.preventDefault();
     loadNews(true);
   });
 
-  // Opcionális provider választó (ha raksz a UI-ba egy selectet)
-  byId("newsProvider")?.addEventListener("change", () => loadNews(true));
+  // Opcionális: provider dropdown (ha beleteszed)
+  document.getElementById("newsProvider")?.addEventListener("change", (e) => {
+    localStorage.setItem("newsProvider", e.target.value);
+    loadNews(true);
+  });
 }
 
 function getProvider() {
-  // 1) UI select felülírhatja
-  const sel = byId("newsProvider");
-  if (sel && sel.value) return String(sel.value).toLowerCase();
-
-  // 2) Mentett preferencia
-  const saved = localStorage.getItem("newsProvider");
-  if (saved) return String(saved).toLowerCase();
-
-  // 3) Default
-  return "rss";
+  const sel = document.getElementById("newsProvider");
+  if (sel?.value) return String(sel.value).toLowerCase();
+  return (localStorage.getItem("newsProvider") || "rss").toLowerCase();
 }
-
-function setNewsStatus(text) {
-  const el = byId("newsStatus");
-  if (!el) return;
-  el.textContent = text;
-}
-
-/* -------------------------------------------------------------------------- */
-/* CHART (Chart.js)                                                           */
-/* -------------------------------------------------------------------------- */
 
 async function initChart() {
-  const canvas = byId("pulseChart");
+  const canvas = document.getElementById("pulseChart");
   if (!canvas || typeof Chart === "undefined") return;
 
   const labels = Array.from({ length: 14 }, (_, i) => `T-${13 - i}`);
@@ -227,13 +160,7 @@ async function initChart() {
     type: "line",
     data: {
       labels,
-      datasets: [
-        {
-          label: "Hype level",
-          data,
-          tension: 0.35
-        }
-      ]
+      datasets: [{ label: "Hype level", data, tension: 0.35 }]
     },
     options: {
       responsive: true,
@@ -241,17 +168,11 @@ async function initChart() {
       plugins: { legend: { display: false } },
       scales: {
         x: { grid: { display: false }, ticks: { color: "#a8b3e6" } },
-        y: {
-          grid: { color: "rgba(120,160,255,.12)" },
-          ticks: { color: "#a8b3e6" },
-          suggestedMin: 0,
-          suggestedMax: 100
-        }
+        y: { grid: { color: "rgba(120,160,255,.12)" }, ticks: { color: "#a8b3e6" }, suggestedMin: 0, suggestedMax: 100 }
       }
     }
   });
 
-  // Élő “pulse” frissítés
   setInterval(() => {
     chart.data.datasets[0].data.shift();
     chart.data.datasets[0].data.push(rand(18, 96));
@@ -259,55 +180,34 @@ async function initChart() {
   }, 1400);
 }
 
-/* -------------------------------------------------------------------------- */
-/* UI HELPERS (anim + skeleton)                                               */
-/* -------------------------------------------------------------------------- */
-
-function revealOnLoad() {
-  // Finom “fade-in” a fő kontentnek, ha van rá class
-  document.querySelectorAll(".reveal").forEach((el) => animateIn(el));
-}
-
-function animateIn(el, { delayMs = 0 } = {}) {
-  // Egyszerű, dependency nélküli anim
-  el.style.opacity = "0";
-  el.style.transform = "translateY(10px)";
-  el.style.transition = "opacity .35s ease, transform .35s ease";
-  setTimeout(() => {
-    el.style.opacity = "1";
-    el.style.transform = "translateY(0)";
-  }, delayMs);
-}
-
-function skeletonCards(n, { minWidth = 280, height = 260 } = {}) {
-  const items = [];
-  for (let i = 0; i < n; i++) {
-    items.push(`
-      <div class="cyber-card p-3" style="min-width:${minWidth}px">
-        <div style="height:${height}px; border-radius:14px; background: rgba(255,255,255,.06)"></div>
-      </div>
-    `);
-  }
-  return items.join("");
+function skeletonCards(n) {
+  return Array.from({ length: n })
+    .map(
+      () => `
+    <div class="cyber-card p-3" style="min-width:280px">
+      <div style="height:250px;border-radius:14px;background:rgba(255,255,255,.06)"></div>
+    </div>
+  `
+    )
+    .join("");
 }
 
 function skeletonNews(n) {
-  const items = [];
-  for (let i = 0; i < n; i++) {
-    items.push(`
-      <div class="col-md-6 col-lg-4">
-        <div class="cyber-card p-3">
-          <div style="height:160px; border-radius:14px; background: rgba(255,255,255,.06)" class="mb-2"></div>
-          <div style="height:14px; width:55%; background: rgba(255,255,255,.08); border-radius:8px" class="mb-2"></div>
-          <div style="height:18px; width:90%; background: rgba(255,255,255,.08); border-radius:8px" class="mb-2"></div>
-          <div style="height:14px; width:100%; background: rgba(255,255,255,.06); border-radius:8px" class="mb-2"></div>
-          <div style="height:14px; width:86%; background: rgba(255,255,255,.06); border-radius:8px" class="mb-3"></div>
-          <div style="height:44px; width:100%; background: rgba(0,229,255,.10); border: 1px solid rgba(0,229,255,.25); border-radius:14px"></div>
-        </div>
+  return Array.from({ length: n })
+    .map(
+      () => `
+    <div class="col-md-6 col-lg-4">
+      <div class="cyber-card p-3">
+        <div style="height:160px;border-radius:14px;background:rgba(255,255,255,.06)" class="mb-2"></div>
+        <div style="height:14px;width:55%;background:rgba(255,255,255,.08);border-radius:8px" class="mb-2"></div>
+        <div style="height:18px;width:90%;background:rgba(255,255,255,.08);border-radius:8px" class="mb-2"></div>
+        <div style="height:14px;width:100%;background:rgba(255,255,255,.06);border-radius:8px" class="mb-3"></div>
+        <div style="height:44px;width:100%;background:rgba(0,229,255,.10);border:1px solid rgba(0,229,255,.25);border-radius:14px"></div>
       </div>
-    `);
-  }
-  return items.join("");
+    </div>
+  `
+    )
+    .join("");
 }
 
 function emptyState(title, desc) {
@@ -321,22 +221,18 @@ function emptyState(title, desc) {
   `;
 }
 
-/* -------------------------------------------------------------------------- */
-/* UTILS                                                                       */
-/* -------------------------------------------------------------------------- */
-
-function byId(id) {
-  return document.getElementById(id);
+function animateIn(el, { delayMs = 0 } = {}) {
+  el.style.opacity = "0";
+  el.style.transform = "translateY(10px)";
+  el.style.transition = "opacity .35s ease, transform .35s ease";
+  setTimeout(() => {
+    el.style.opacity = "1";
+    el.style.transform = "translateY(0)";
+  }, delayMs);
 }
 
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function formatDate(iso) {
-  if (!iso) return "";
-  // csak “YYYY-MM-DD” a minimalista UI-hoz
-  return String(iso).slice(0, 10);
 }
 
 function esc(s) {

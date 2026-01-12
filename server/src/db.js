@@ -1,3 +1,10 @@
+/**
+ * SQLite adatbázis:
+ * - users, goty, weekly_topics, messages, support_requests, donations
+ * - seed admin user
+ * - seed weekly topic
+ * - seed GOTY (utolsó 10 év placeholder)
+ */
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import bcrypt from "bcryptjs";
@@ -37,7 +44,7 @@ export async function initDb() {
     CREATE TABLE IF NOT EXISTS weekly_topics (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       topic TEXT NOT NULL,
-      week_start TEXT NOT NULL, -- ISO date
+      week_start TEXT NOT NULL,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
   `);
@@ -75,9 +82,7 @@ export async function initDb() {
   `);
 
   await seedAdmin(db);
-
   await seedWeeklyTopic(db);
-
   await seedGoty(db);
 
   return db;
@@ -104,7 +109,7 @@ async function seedWeeklyTopic(db) {
 
   const now = new Date();
   const monday = new Date(now);
-  const day = (monday.getDay() + 6) % 7;
+  const day = (monday.getDay() + 6) % 7; // hétfő=0
   monday.setDate(monday.getDate() - day);
   const iso = monday.toISOString().slice(0, 10);
 
@@ -126,7 +131,7 @@ async function seedGoty(db) {
       [
         y,
         `GOTY ${y} (állítsd be)`,
-        "Admin felülettel frissíthető: cím, leírás, hivatalos link, kép.",
+        "Admin frissítheti: cím, leírás, hivatalos link, kép.",
         "https://example.com",
         ""
       ]

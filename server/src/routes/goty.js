@@ -1,3 +1,8 @@
+/**
+ * GOTY:
+ * - GET /api/goty -> mindig 10 év (aktuális év-9..aktuális év)
+ * - POST /api/goty -> admin frissíti
+ */
 import { Router } from "express";
 import { z } from "zod";
 import { requireAuth, requireAdmin } from "../middleware/auth.js";
@@ -8,6 +13,7 @@ export function gotyRoutes(db) {
   r.get("/", async (req, res) => {
     const year = new Date().getFullYear();
     const from = year - 9;
+
     const rows = await db.all(
       "SELECT * FROM goty WHERE year BETWEEN ? AND ? ORDER BY year DESC",
       [from, year]

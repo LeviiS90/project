@@ -1,3 +1,6 @@
+/**
+ * POST /api/support
+ */
 import { Router } from "express";
 import { z } from "zod";
 
