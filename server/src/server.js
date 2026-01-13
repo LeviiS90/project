@@ -32,14 +32,14 @@ app.use(morgan("dev"));
 const db = await initDb();
 
 // API routes
-app.use("/api/auth", authRoutes(db));
-app.use("/api/games", gamesRoutes());
-app.use("/api/goty", gotyRoutes(db));
-app.use("/api/messages", messagesRoutes(db));
-app.use("/api/weekly-topics", weeklyTopicsRoutes(db));
-app.use("/api/news", newsRoutes());
-app.use("/api/support", supportRoutes(db));
-app.use("/api/donate", donateRoutes(db));
+app.use("server/client/assets/js/auth.js", authRoutes(db));
+app.use("server/client/assets/js/games.js", gamesRoutes());
+app.use("server/client/assets/js/goty.js", gotyRoutes(db));
+app.use("server/client/assets/js/messages.js", messagesRoutes(db));
+app.use("server/client/assets/js/weekly-topics.js", weeklyTopicsRoutes(db));
+app.use("server/client/assets/js/news.js", newsRoutes());
+app.use("server/client/assets/js/support.js", supportRoutes(db));
+app.use("server/client/assets/js/donate.js", donateRoutes(db));
 
 // Client statikus
 const __filename = fileURLToPath(import.meta.url);
