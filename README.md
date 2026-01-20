@@ -6,10 +6,6 @@ Kész
 - Üzleti és felhasználói igények részletes leírása
 - Funkcionális és nem funkcionális követelmények
 
-
-Folyamatban
---------------------------------------------------
-
 2. Projektterv
 - Ütemezés, mérföldkövek, erőforrások, szerepkörök
 - Kockázatkezelési terv, költségbecslés
