@@ -171,6 +171,7 @@ a:hover{ text-decoration: underline; }
   border: 1px solid rgba(0,255,255,0.12);
   border-radius: var(--r);
   box-shadow: var(--shadow);
+  color: var(--white);
 }
 
 /* Responsive fixes */
