@@ -171,7 +171,6 @@ a:hover{ text-decoration: underline; }
   border: 1px solid rgba(0,255,255,0.12);
   border-radius: var(--r);
   box-shadow: var(--shadow);
-  color: var(--white);
 }
 
 /* Responsive fixes */
@@ -434,6 +433,111 @@ a:hover{ text-decoration: underline; }
   /* több oszlop nagy kijelzőn, hogy ne legyenek "végtelen" szélesek a hírek */
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 10px;
+}
+
+/* Home: Featured news layout (1 nagy + lista) */
+.news-hero-grid{
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 12px;
+  align-items: stretch;
+  margin-top: 12px;
+}
+.news-hero-feature{
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  min-height: 210px;
+  text-decoration: none;
+  background:
+    radial-gradient(600px 260px at 20% 10%, rgba(0,255,255,0.14), transparent 55%),
+    radial-gradient(600px 260px at 80% 40%, rgba(127,0,255,0.18), transparent 60%),
+    rgba(5,1,13,0.38);
+}
+.news-hero-title{
+  margin-top: 8px;
+  color: var(--white);
+  font-weight: 1000;
+  line-height: 1.12;
+  font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-hero-cta{
+  margin-top: auto;
+  font-weight: 900;
+  letter-spacing: .02em;
+  color: rgba(234,252,255,0.85);
+  text-decoration: none;
+}
+.news-hero-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.news-hero-item{
+  display: block;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,255,255,0.12);
+  background: rgba(5,1,13,0.40);
+  text-decoration: none;
+  transition: .18s ease;
+  min-height: 86px;
+}
+.news-hero-item:hover{
+  transform: translateY(-2px);
+  border-color: rgba(0,255,255,0.24);
+  background: rgba(0,255,255,0.06);
+  text-decoration: none;
+}
+
+@media (max-width: 991.98px){
+  .news-hero-grid{ grid-template-columns: 1fr; }
+  .news-hero-feature{ min-height: 180px; }
+}
+
+/* Home: GOTY cards */
+.goty-cards{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.goty-card{
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  text-decoration: none;
+  background:
+    radial-gradient(500px 220px at 20% 10%, rgba(127,0,255,0.18), transparent 60%),
+    rgba(5,1,13,0.38);
+}
+.goty-year{
+  font-weight: 1000;
+  font-size: 22px;
+  text-shadow: 0 0 18px rgba(0,255,255,0.22);
+}
+.goty-game{
+  color: var(--white);
+  font-weight: 900;
+  line-height: 1.15;
+  font-size: 15px;
+}
+.goty-badge{
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,255,0.22);
+  background: rgba(0,255,255,0.08);
+  font-weight: 900;
+  color: rgba(234,252,255,0.92);
+}
+
+@media (max-width: 991.98px){
+  .goty-cards{ grid-template-columns: 1fr; }
 }
 .news-feature-item{
   display: block;
