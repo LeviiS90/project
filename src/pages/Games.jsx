@@ -9,12 +9,10 @@ export default function Games() {
   const [genresSel, setGenresSel] = useState([]); // [] = mind
   const [platformsSel, setPlatformsSel] = useState([]); // [] = mind
   const [q, setQ] = useState("");
-  const [favOnly, setFavOnly] = useState(false); // Csak kedvencek szűrő
 
   const [selected, setSelected] = useState(null);
   const [detail, setDetail] = useState(null);
   const [err, setErr] = useState("");
-  const [favs, setFavs] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -25,11 +23,6 @@ export default function Games() {
         setErr("Games betöltés sikertelen");
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    const fav = JSON.parse(localStorage.getItem("favs") || "[]");
-    setFavs(fav);
   }, []);
 
   const genres = useMemo(() => {
@@ -49,12 +42,7 @@ export default function Games() {
   }, [all]);
 
   const filtered = useMemo(() => {
-    const favsIds = favOnly ? JSON.parse(localStorage.getItem("favs") || "[]").map(f => f.id) : null;
-    
     return all.filter(x => {
-      // Kedvencek szűrő
-      if (favOnly && !favsIds.includes(x.id)) return false;
-
       const okG = genresSel.length === 0 || genresSel.includes(x.genre);
 
       const platformMatches = (p) => {
@@ -66,7 +54,7 @@ export default function Games() {
       const okQ = !q.trim() || (x.title || "").toLowerCase().includes(q.toLowerCase());
       return okG && okP && okQ;
     });
-  }, [all, genresSel, platformsSel, q, favOnly]);
+  }, [all, genresSel, platformsSel, q]);
 
   async function openDetails(id) {
     setSelected(id);
@@ -88,7 +76,6 @@ export default function Games() {
     const exists = current.find(x => x.id === game.id);
     const next = exists ? current.filter(x => x.id !== game.id) : [...current, { id: game.id, title: game.title }];
     localStorage.setItem(key, JSON.stringify(next));
-    setFavs(next);
     toast.push(exists ? "❌ Kivetted a kedvencekből" : "✅ Kedvencekhez adva", {
       type: exists ? "warn" : "success",
       ttl: 2200,
@@ -158,23 +145,12 @@ export default function Games() {
               })}
             </div>
 
-            <label className="form-label mt-3">Kedvencek</label>
-            <label className="ngh-check">
-              <input
-                type="checkbox"
-                checked={favOnly}
-                onChange={() => setFavOnly(!favOnly)}
-              />
-              <span>Csak kedvencek (★)</span>
-            </label>
-
             <button
               className="btn neon-btn-outline mt-3"
               onClick={() => {
                 setGenresSel([]);
                 setPlatformsSel([]);
                 setQ("");
-                setFavOnly(false);
               }}
             >
               Reset
@@ -197,17 +173,7 @@ export default function Games() {
 
                   <div className="d-flex gap-2 flex-wrap mt-3">
                     <button className="btn neon-btn btn-sm" onClick={() => openDetails(g.id)}>Részletek</button>
-                    {favs.find(f => f.id === g.id) ? (
-                      <button 
-                        className="btn btn-sm" 
-                        style={{ background: "#FFD700", color: "#000", border: "none" }}
-                        onClick={() => toggleFav(g)}
-                      >
-                        ★ Kedvencek
-                      </button>
-                    ) : (
-                      <button className="btn neon-btn-outline btn-sm" onClick={() => toggleFav(g)}>★ Kedvencek</button>
-                    )}
+                    <button className="btn neon-btn-outline btn-sm" onClick={() => toggleFav(g)}>★ Kedvencek</button>
                   </div>
                 </div>
               </div>
