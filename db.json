@@ -1,0 +1,35 @@
+{
+  "users": [],
+  "messages": [],
+  "news": [
+    { "title": "GTA VI hírek és pletykák", "source": "IGN", "url": "https://www.ign.com" },
+    { "title": "Új PC Gamer top lista", "source": "PC Gamer", "url": "https://www.pcgamer.com" },
+    { "title": "GameSpot friss review-k", "source": "GameSpot", "url": "https://www.gamespot.com" }
+  ],
+  "goty": [
+    { "year": 2015, "game": "The Witcher 3", "url": "https://thewitcher.com" },
+    { "year": 2016, "game": "Overwatch", "url": "https://playoverwatch.com" },
+    { "year": 2017, "game": "Zelda BOTW", "url": "https://www.zelda.com" },
+    { "year": 2018, "game": "God of War", "url": "https://godofwar.playstation.com" },
+    { "year": 2019, "game": "Sekiro", "url": "https://www.sekirothegame.com" },
+    { "year": 2020, "game": "The Last of Us II", "url": "https://www.thelastofus.playstation.com" },
+    { "year": 2021, "game": "It Takes Two", "url": "https://www.ea.com/games/it-takes-two" },
+    { "year": 2022, "game": "Elden Ring", "url": "https://en.bandainamcoent.eu/elden-ring/elden-ring" },
+    { "year": 2023, "game": "Baldur's Gate 3", "url": "https://baldursgate3.game" },
+    { "year": 2024, "game": "Alan Wake 2", "url": "https://www.alanwake.com" }
+  ],
+  "weeklyTopics": [
+    {
+      "weekStart": "2026-01-27",
+      "topics": [
+        "Melyik játék volt a hét legjobbja?",
+        "Mi a kedvenc multiplayer játékod?",
+        "Melyik játéknak volt a legjobb story-ja?",
+        "Melyik játékot várod a legjobban?"
+      ],
+      "activeTopic": "Melyik játék volt a hét legjobbja?"
+    }
+  ],
+  "support": [],
+  "donations": []
+}
