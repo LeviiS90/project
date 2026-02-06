@@ -1,0 +1,290 @@
+/*
+  Neon GameHub — Cyber/Neon téma
+  - Sötét háttér + neon kék/lila akcentus
+  - Glow, hover animok, beúszó szövegek, kártyák
+*/
+
+:root{
+  --bg0:#070A12;
+  --bg1:#0B1220;
+  --card:#0E1630;
+  --neon:#37b6ff;
+  --neon2:#b84bff;
+  --text:#e8f2ff;
+  --muted:#9bb2d3;
+}
+
+html,body{height:100%}
+body{
+  background: radial-gradient(1200px 800px at 10% 10%, rgba(184,75,255,.18), transparent 60%),
+              radial-gradient(1200px 800px at 90% 20%, rgba(55,182,255,.14), transparent 55%),
+              linear-gradient(180deg, var(--bg0), var(--bg1));
+  /* ha később háttérképet raksz be, ne csempézze (ne ismétlődjön) */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Subtle grid overlay */
+.bg-grid::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(55,182,255,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(184,75,255,.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events:none;
+  mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,1), rgba(0,0,0,.2) 60%, rgba(0,0,0,0) 80%);
+}
+
+a{color:inherit}
+a:hover{color:var(--neon)}
+.small-muted{color:var(--muted)}
+
+/* Neon utilities */
+.neon{
+  text-shadow:
+    0 0 8px rgba(55,182,255,.55),
+    0 0 20px rgba(184,75,255,.35);
+}
+.glow{
+  box-shadow:
+    0 0 0 1px rgba(55,182,255,.25),
+    0 0 24px rgba(55,182,255,.18),
+    0 0 34px rgba(184,75,255,.10);
+}
+.glow2{
+  box-shadow:
+    0 0 0 1px rgba(184,75,255,.25),
+    0 0 20px rgba(184,75,255,.14),
+    0 0 34px rgba(55,182,255,.10);
+}
+
+/* Animated gradient border */
+.border-neon{
+  position: relative;
+}
+.border-neon::before{
+  content:"";
+  position:absolute; inset:-1px;
+  border-radius: 18px;
+  background: conic-gradient(from 180deg, rgba(55,182,255,.0), rgba(55,182,255,.55), rgba(184,75,255,.55), rgba(55,182,255,.0));
+  filter: blur(8px);
+  opacity:.65;
+  animation: spin 6s linear infinite;
+  z-index: -1;
+}
+@keyframes spin{to{transform:rotate(1turn)}}
+
+/* Buttons */
+.btn-neon{
+  --bs-btn-color: var(--text);
+  --bs-btn-bg: rgba(55,182,255,.12);
+  --bs-btn-border-color: rgba(55,182,255,.25);
+  --bs-btn-hover-bg: rgba(55,182,255,.22);
+  --bs-btn-hover-border-color: rgba(55,182,255,.55);
+  --bs-btn-active-bg: rgba(184,75,255,.28);
+  --bs-btn-active-border-color: rgba(184,75,255,.6);
+  border-radius: 14px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-neon:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(55,182,255,.12), 0 0 22px rgba(184,75,255,.14);
+}
+.btn-neon:active{transform: translateY(0) scale(.98)}
+
+/* Navbar */
+.navbar{
+  backdrop-filter: blur(10px);
+  background: rgba(7,10,18,.55) !important;
+  border-bottom: 1px solid rgba(55,182,255,.15);
+}
+.nav-link{
+  position: relative;
+  transition: transform .15s ease, color .15s ease;
+}
+.nav-link:hover{
+  transform: translateY(-1px);
+  color: var(--neon) !important;
+}
+.nav-link::after{
+  content:"";
+  position:absolute; left:10px; right:10px; bottom:6px;
+  height:2px;
+  background: linear-gradient(90deg, transparent, rgba(55,182,255,.8), rgba(184,75,255,.8), transparent);
+  transform: scaleX(0);
+  transition: transform .2s ease;
+}
+.nav-link:hover::after{transform: scaleX(1)}
+
+/* Hero */
+.hero{
+  border-radius: 22px;
+  background:
+    radial-gradient(900px 420px at 20% 20%, rgba(55,182,255,.16), transparent 70%),
+    radial-gradient(700px 420px at 80% 35%, rgba(184,75,255,.18), transparent 70%),
+    linear-gradient(135deg, rgba(14,22,48,.78), rgba(7,10,18,.65));
+  border: 1px solid rgba(55,182,255,.18);
+}
+.hero .badge{
+  background: rgba(184,75,255,.18) !important;
+  border: 1px solid rgba(184,75,255,.35);
+}
+.slide-in{
+  animation: slideIn .7s ease both;
+}
+@keyframes slideIn{
+  from{opacity:0; transform: translateX(-18px)}
+  to{opacity:1; transform: translateX(0)}
+}
+
+/* Cards */
+.neon-card{
+  background: rgba(14,22,48,.75);
+  border: 1px solid rgba(55,182,255,.16);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.neon-card:hover{
+  transform: translateY(-4px);
+  border-color: rgba(55,182,255,.45);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35), 0 0 26px rgba(55,182,255,.12);
+}
+.card-img-top{
+  filter: saturate(1.05) contrast(1.04);
+}
+
+.pill{
+  border: 1px solid rgba(55,182,255,.22);
+  background: rgba(55,182,255,.10);
+  border-radius: 999px;
+  padding: .2rem .55rem;
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+/* Fancy timeline */
+.timeline{
+  position: relative;
+  margin-left: .75rem;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left: 12px; top: 0; bottom:0;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(55,182,255,.65), rgba(184,75,255,.55), transparent);
+  filter: drop-shadow(0 0 10px rgba(55,182,255,.25));
+}
+.titem{
+  position: relative;
+  padding-left: 2.2rem;
+  margin: 1.0rem 0;
+}
+.tdot{
+  position:absolute;
+  left: 5px; top: 22px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(55,182,255,1), rgba(184,75,255,.7));
+  box-shadow: 0 0 18px rgba(55,182,255,.35);
+}
+.tcard{
+  border-radius: 18px;
+  background: rgba(14,22,48,.78);
+  border: 1px solid rgba(184,75,255,.18);
+  padding: 1rem;
+}
+.tcard:hover{
+  border-color: rgba(184,75,255,.55);
+  box-shadow: 0 0 0 1px rgba(184,75,255,.18), 0 14px 40px rgba(0,0,0,.35);
+}
+
+/* Footer */
+.footer{
+  border-top: 1px solid rgba(55,182,255,.14);
+  background: rgba(7,10,18,.55);
+  backdrop-filter: blur(10px);
+}
+
+/* Inputs */
+.form-control, .form-select{
+  background: rgba(7,10,18,.6);
+  border: 1px solid rgba(55,182,255,.18);
+  color: white;
+  border-radius: 14px;
+}
+.form-control:focus, .form-select:focus{
+  box-shadow: 0 0 0 .2rem rgba(55,182,255,.12);
+  border-color: rgba(55,182,255,.55);
+  color: black;
+}
+
+
+/* ---------- FIXES & IMPROVEMENTS (v2) ---------- */
+
+/* Üzenetek: ne "lapuljanak össze", a szöveg törjön és legyen görgethető lista */
+.message-list {
+  max-height: 70vh;
+  overflow: auto;
+  padding-right: 6px;
+}
+.message-card {
+padding: 10px 12px;
+
+  min-height: 64px;
+}
+.message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+/* Games szűrők: több műfaj/platform checkbox lista */
+.filter-box {
+  max-height: 210px;
+  overflow: auto;
+  padding-right: 6px;
+}
+.form-check-input:checked {
+  box-shadow: 0 0 0 .2rem rgba(55,182,255,.20);
+}
+
+/* Toast (jobb felső sarok) */
+.toast-holder{position:fixed;z-index:2000}
+.toast-holder--tr{top:14px;right:14px}
+.toast-holder--br{bottom:14px;right:14px}
+.toast.neon-toast {
+  background: rgba(7, 12, 22, .92);
+  border: 1px solid rgba(55,182,255,.35);
+  box-shadow: 0 0 18px rgba(55,182,255,.25);
+  color: #eaf6ff;
+}
+
+
+
+/* --- Navbar collapse: CSAK mobilon legyen görgethető.
+   Desktopon ne legyen scrollbar/clip, különben a dropdown levágódik. --- */
+.navbar .navbar-collapse{
+  overflow: visible; /* desktop alap */
+}
+@media (max-width: 991.98px){
+  .navbar .navbar-collapse{
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+  }
+  .navbar .dropdown-menu{
+    position: static;
+    float: none;
+    width: 100%;
+    margin-top: .25rem;
+  }
+  .navbar .nav-auth{
+    padding-bottom: .75rem;
+  }
+}

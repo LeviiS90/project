@@ -1,28 +1,23 @@
 {
-  "name": "neon-gaming-hub",
-  "private": true,
-  "version": "1.0.0",
+  "name": "neon-gamehub",
+  "version": "1.1.0",
+  "description": "Cyber neon React(JSX) + Express REST API demo (split files, 17 total).",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "server": "node server.js",
-    "dev:all": "concurrently -n SERVER,WEB -c green,cyan \"npm run server\" \"npm run dev\"",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "rss-parser": "^3.13.0"
+    "node-fetch": "^3.3.2",
+    "rss-parser": "^3.13.0",
+    "stripe": "^16.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "concurrently": "^8.2.2",
-    "vite": "^5.4.21"
+    "nodemon": "^3.1.0"
   }
 }
