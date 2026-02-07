@@ -22,23 +22,23 @@
 - Architektúra diagramok (pl. rétegmodell, komponensdiagram)
 
 Frontend Modul:
-- Javascript, JSON
+- React,Javascript,JSON
 - játéklista megjelenítése
 - játék adatlapok
 - keresés, szűrés, rendezés
-- API hívások a backend felé (HTTP/REST vagy GraphQL)
+- API hívások a backend felé (HTTP/REST)
 
 Backend modul:
-- játék adatainak lekérése, hozzáadása, módosítása
-- keresési logika 
+- játék adatainak lekérése, módosítása
+- keresési logika
 - műfajok és kategóriák kezelése
 - konzolok, PC és egyéb platformok listája, kapcsolatai a játékokkal
 - kezelheti a regisztrációt, bejelentkezést, kedvencek listáját
-- Node.js + Express
+!!! eznemjo - Node.js + Express
 
 
 Adatbázis réteg: 
-- adatok tárolása relációs adatbázisban (MySQL, vagy PostgreSQL)
+- adatok tárolása relációs adatbázisban (VALAMILYENFELHŐS)
 - saját táblák felhasználókhoz, üzenőfalhoz, GOTY-hoz, hírekhez
 
 Külső szolgáltatások:
@@ -49,7 +49,7 @@ Külső szolgáltatások:
 Infrastruktúra réteg:
 - webszerver (Apache)
 - backend futtató környezet (Node.js, PHP)
-- DB szerver vagy fehős adatbázis
+- fehős adatbázis
 
 
 Játéklista lekérése:
@@ -64,7 +64,7 @@ Backend:
 
 Biztonság és jogosultságkezelés:
 - HTTPS kommunikáció
-- API kulcs vagy JWT token (ha van login)
+- API kulcs vagy JWT token
 - admin jogosultság a játékok hozzáadásához
 
 Skálázhatóság és teljesítmény:
@@ -149,7 +149,7 @@ Az év játéka:
     - alatta üzenetlista
     - új üzenet űrlap
     - látható mindenkinek az üzenete
-    - admin el tudja távolítani az üzenetet ami nem oda illő
+    - admin el tudja távolítani az üzenetet
 
 Support/Contact:
     - egyszerű form, visszaigazoló üzenettel, pénz küldési lehetőséggel (donate), 
@@ -158,7 +158,8 @@ Weben:
 - neon kék / lila akcentusok (neonos téma)
 - bootstrap theme + CSS
 - király animációk az egész oldalon
-- animált hover effekek gombokon, menüpontokon, shadowing, animált effekek, speciális effectek például van a https://en.bandainamcoent.eu/elden-ring/elden-ring weboldal
+- animált hover effekek gombokon, menüpontokon, shadowing, animált effekek,
+-  speciális effectek például a https://en.bandainamcoent.eu/elden-ring/elden-ring weboldal
 - reszponzív navbar
 - reszponzív oldal
   
