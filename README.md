@@ -1,6 +1,5 @@
 # project
 
-Kész
 ----------------------------------------------------
 1. Rendszerkövetelmény-specifikáció (URS / SRS)
 - Üzleti és felhasználói igények részletes leírása
