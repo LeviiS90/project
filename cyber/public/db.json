@@ -1,0 +1,32 @@
+{
+  "goty": [
+    { "year": 2015, "game": "The Witcher 3", "url": "https://thewitcher.com/en/witcher3", "cover": "/goty/2015-the-witcher-3.jpg" },
+    { "year": 2016, "game": "Overwatch", "url": "https://overwatch.blizzard.com/", "cover": "/goty/2016-overwatch.jpg" },
+    { "year": 2017, "game": "The Legend of Zelda: Breath of the Wild", "url": "https://www.zelda.com/breath-of-the-wild/", "cover": "/goty/2017-zelda-botw.jpg" },
+    { "year": 2018, "game": "God of War", "url": "https://www.playstation.com/games/god-of-war/", "cover": "/goty/2018-god-of-war.jpg" },
+    { "year": 2019, "game": "Sekiro: Shadows Die Twice", "url": "https://www.sekirothegame.com/", "cover": "/goty/2019-sekiro.jpg" },
+    { "year": 2020, "game": "The Last of Us Part II", "url": "https://www.playstation.com/games/the-last-of-us-part-ii/", "cover": "/goty/2020-tlou2.jpg" },
+    { "year": 2021, "game": "It Takes Two", "url": "https://www.ea.com/games/it-takes-two", "cover": "/goty/2021-it-takes-two.jpg" },
+    { "year": 2022, "game": "Elden Ring", "url": "https://en.bandainamcoent.eu/elden-ring/elden-ring", "cover": "/goty/2022-elden-ring.jpg" },
+    { "year": 2023, "game": "Baldur's Gate 3", "url": "https://baldursgate3.game/", "cover": "/goty/2023-baldurs-gate-3.jpg" },
+    { "year": 2024, "game": "Alan Wake 2", "url": "https://www.alanwake.com/", "cover": "/goty/2024-alan-wake-2.jpg" }
+  ],
+  "users": [
+    { "email": "admin@local", "password": "admin", "role": "admin" },
+    { "email": "user@local", "password": "user", "role": "user" }
+  ],
+  "messages": [],
+  "weeklyTopics": [
+    {
+      "weekStart": "2026-01-27",
+      "activeTopic": "Melyik játék volt a hét legjobbja?",
+      "topics": [
+        "Melyik játéknak volt a legjobb sztorija?",
+        "Melyik multiplayer a kedvenced?",
+        "Melyik indie volt a legnagyobb meglepetés?"
+      ]
+    }
+  ],
+  "support": [],
+  "donations": []
+}
