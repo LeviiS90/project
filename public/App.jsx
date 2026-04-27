@@ -146,6 +146,7 @@ window.NGH.App = function App(){
     const api = window.NGH.lib.api;
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
+    const [showPw, setShowPw] = useState(false);
     const [err, setErr] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -217,14 +218,26 @@ window.NGH.App = function App(){
                     color:"var(--muted)", fontSize:"0.9rem"
                   }}></i>
                   <input
-                    type="password"
+                    type={showPw ? "text" : "password"}
                     className="form-control"
-                    style={{paddingLeft:"2.3rem"}}
+                    style={{paddingLeft:"2.3rem", paddingRight:"2.5rem"}}
                     value={password}
                     onChange={e=>setPassword(e.target.value)}
                     placeholder="••••••••"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={()=>setShowPw(v=>!v)}
+                    tabIndex={-1}
+                    style={{
+                      position:"absolute", right:"0.75rem", top:"50%", transform:"translateY(-50%)",
+                      background:"none", border:"none", padding:0, cursor:"pointer",
+                      color:"#ffffff", fontSize:"1rem", lineHeight:1
+                    }}
+                  >
+                    <i className={`bi ${showPw ? "bi-eye-slash" : "bi-eye"}`}></i>
+                  </button>
                 </div>
               </div>
 
@@ -252,6 +265,7 @@ window.NGH.App = function App(){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPw, setShowPw] = useState(false);
     const [err, setErr] = useState("");
     const [info, setInfo] = useState("");
     const [loading, setLoading] = useState(false);
@@ -304,9 +318,8 @@ window.NGH.App = function App(){
 
             <form onSubmit={submit}>
               {[
-                { label:"Felhasználónév", icon:"bi-person", type:"text",     val:name,     set:setName,     ph:"pl. Gamer123" },
-                { label:"Email cím",      icon:"bi-envelope", type:"email",  val:email,    set:setEmail,    ph:"pl. te@pelda.hu" },
-                { label:"Jelszó",         icon:"bi-key-fill", type:"password", val:password, set:setPassword, ph:"min. 6 karakter" },
+                { label:"Felhasználónév", icon:"bi-person",   type:"text",  val:name,  set:setName,  ph:"pl. Gamer123" },
+                { label:"Email cím",      icon:"bi-envelope", type:"email", val:email, set:setEmail, ph:"pl. te@pelda.hu" },
               ].map(f => (
                 <div className="mb-3" key={f.label}>
                   <label className="form-label">{f.label}</label>
@@ -327,6 +340,37 @@ window.NGH.App = function App(){
                   </div>
                 </div>
               ))}
+
+              <div className="mb-3">
+                <label className="form-label">Jelszó</label>
+                <div style={{position:"relative"}}>
+                  <i className="bi bi-key-fill" style={{
+                    position:"absolute", left:"0.9rem", top:"50%", transform:"translateY(-50%)",
+                    color:"var(--muted)", fontSize:"0.9rem"
+                  }}></i>
+                  <input
+                    type={showPw ? "text" : "password"}
+                    className="form-control"
+                    style={{paddingLeft:"2.3rem", paddingRight:"2.5rem"}}
+                    value={password}
+                    onChange={e=>setPassword(e.target.value)}
+                    placeholder="min. 6 karakter"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={()=>setShowPw(v=>!v)}
+                    tabIndex={-1}
+                    style={{
+                      position:"absolute", right:"0.75rem", top:"50%", transform:"translateY(-50%)",
+                      background:"none", border:"none", padding:0, cursor:"pointer",
+                      color:"#ffffff", fontSize:"1rem", lineHeight:1
+                    }}
+                  >
+                    <i className={`bi ${showPw ? "bi-eye-slash" : "bi-eye"}`}></i>
+                  </button>
+                </div>
+              </div>
 
               <button
                 className="btn btn-neon w-100 mt-2"

@@ -419,7 +419,7 @@ a:hover { color: var(--neon); transition: var(--transition); }
   background: rgba(7,13,26,.72);
   border: 1px solid rgba(76,201,255,.14);
   color: var(--text) !important;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm);                                               
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.95rem !important;
   font-weight: 500 !important;
@@ -435,7 +435,7 @@ a:hover { color: var(--neon); transition: var(--transition); }
   outline: none;
 }
 .form-control::placeholder { color: var(--muted); }
-.form-check-input { background-color: rgba(7,13,26,.7); border-color: rgba(76,201,255,.28); }
+.form-check-input { background-color: rgba(26, 7, 7, 0.7); border-color: rgba(76,201,255,.28); }
 .form-check-input:checked { background-color: var(--neon); border-color: var(--neon); }
 .form-label {
   font-family: 'Rajdhani', sans-serif;
@@ -712,3 +712,14 @@ footer .footer-brand { font-family: 'Orbitron', monospace; font-size: 0.95rem; f
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 input[type=number] { -moz-appearance: textfield; }
+
+
+
+/* */
+input[type=password]::-ms-reveal { display: none; }
+input[type=password]::-webkit-credentials-auto-fill-button { visibility: hidden; }
+.password-toggle {
+  position: absolute; right: 0.75rem; top: 50%;
+  transform: translateY(-50%); cursor: pointer;
+  color: #ffffff; background: none; border: none; font-size: 1rem;
+}
