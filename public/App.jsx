@@ -183,9 +183,6 @@ window.NGH.App = function App(){
               <h2 className="neon mb-1" style={{fontFamily:"Orbitron, monospace", fontSize:"1.1rem", letterSpacing:"0.08em"}}>
                 BEJELENTKEZÉS
               </h2>
-              <div className="small-muted" style={{fontSize:"0.82rem"}}>
-                Admin: <b style={{color:"var(--text)"}}>admin@local</b> / <b style={{color:"var(--text)"}}>admin123</b>
-              </div>
             </div>
 
             {err && <div className="alert alert-danger py-2">{err}</div>}
@@ -203,7 +200,7 @@ window.NGH.App = function App(){
                     style={{paddingLeft:"2.3rem"}}
                     value={identifier}
                     onChange={e=>setIdentifier(e.target.value)}
-                    placeholder="admin@local"
+                    placeholder="pelda@valami.com"
                     required
                     autoFocus
                   />
